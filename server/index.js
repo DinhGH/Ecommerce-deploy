@@ -1,6 +1,7 @@
 require("dotenv").config();
 require("./strategies/googlee");
 require("./strategies/facebook");
+console.log("🔥 NODE_ENV =", process.env.NODE_ENV);
 
 const express = require("express");
 const cors = require("cors");
@@ -22,22 +23,9 @@ const orderRoutesAdmin = require("./routes/orderRoutesAdmin");
 
 const app = express();
 
-// ⚠️ Bật CORS TRƯỚC tất cả middleware khác
-const allowedOrigins = [
-  "https://ecommerce-deploy-73ifrv36n-dinhs-projects-e150df4e.vercel.app",
-  "https://ecommerce-deploy-virid.vercel.app",
-  "http://localhost:5173",
-];
-
 app.use(
   cors({
-    origin: function (origin, callback) {
-      if (!origin || allowedOrigins.includes(origin)) {
-        callback(null, true);
-      } else {
-        callback(new Error("Not allowed by CORS"));
-      }
-    },
+    origin: true, // tự động phản hồi theo header Origin gửi lên
     credentials: true,
   })
 );
