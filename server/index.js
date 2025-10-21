@@ -22,7 +22,7 @@ const { authMiddleware, requireRole } = require("./middlewares/authMiddleware");
 const app = express();
 app.use(
   cors({
-    origin: "*", // frontend React
+    origin: "https://ecommerce-deploy-virid.vercel.app", // frontend React
     credentials: true, // cho phép gửi cookie
   })
 );
