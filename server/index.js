@@ -26,10 +26,11 @@ const app = express();
 app.use(
   cors({
     origin: [
-      "https://ecommerce-deploy-virid.vercel.app", // frontend Vercel
-      "http://localhost:5173", // test local
+      "https://ecommerce-deploy-73ifrv36n-dinhs-projects-e150df4e.vercel.app",
+      "https://ecommerce-deploy-virid.vercel.app",
+      "http://localhost:5173",
     ],
-    credentials: true, // Cho phép cookie, session
+    credentials: true,
   })
 );
 
