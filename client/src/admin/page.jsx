@@ -72,7 +72,7 @@ export default function Admin() {
     const fetchUser = async () => {
       try {
         const res = await axios.get(
-          `${import.meta.env.VITE_API_URL}/auth/user/me"`,
+          `${import.meta.env.VITE_API_URL}/auth/user/me`,
           {
             withCredentials: true,
           }
@@ -205,39 +205,95 @@ export default function Admin() {
       {/* Sidebar for Mobile */}
       {openSidebar && (
         <div className="fixed inset-0 z-40 flex">
-          <div className="flex flex-col w-64 p-4 bg-gray-100 dark:bg-gray-900">
-            <div className="flex justify-between items-center mb-4">
-              <h2 className="text-gray-500 text-sm font-semibold uppercase">
-                TOOLPAD
-              </h2>
-              <button onClick={() => setOpenSidebar(false)}>
-                <XMarkIcon className="w-6 h-6 text-gray-700 dark:text-gray-200" />
-              </button>
-            </div>
-            <nav>
-              {NAVIGATION.map((item) => (
-                <button
-                  key={item.segment}
-                  onClick={() => {
-                    setPathname(item.segment);
-                    setOpenSidebar(false);
-                  }}
-                  className={`
-                    flex w-full px-3 py-2 mb-1 text-left rounded-lg
-                    items-center gap-2
-                    ${
+          <div className="flex flex-col w-64 p-4 bg-gray-100 dark:bg-gray-900 justify-between">
+            <div>
+              <div className="flex justify-between items-center mb-4">
+                <h2 className="text-gray-500 text-sm font-semibold uppercase">
+                  TOOLPAD
+                </h2>
+                <button onClick={() => setOpenSidebar(false)}>
+                  <XMarkIcon className="w-6 h-6 text-gray-700 dark:text-gray-200" />
+                </button>
+              </div>
+
+              <nav>
+                {NAVIGATION.map((item) => (
+                  <button
+                    key={item.segment}
+                    onClick={() => {
+                      setPathname(item.segment);
+                      setOpenSidebar(false);
+                    }}
+                    className={`flex w-full px-3 py-2 mb-1 text-left rounded-lg items-center gap-2 ${
                       pathname === item.segment
                         ? "bg-blue-500 text-white"
                         : "text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700"
-                    }
-                  `}
-                >
-                  {item.icon}
-                  <span>{item.title}</span>
-                </button>
-              ))}
-            </nav>
+                    }`}
+                  >
+                    {item.icon}
+                    <span>{item.title}</span>
+                  </button>
+                ))}
+              </nav>
+            </div>
+
+            {/* 👇 Footer Account for Mobile */}
+            <div className="relative mt-4 border-t border-gray-200 dark:border-gray-700 pt-3">
+              <button
+                onClick={() => setOpenAccount(!openAccount)}
+                className="flex w-full p-2 rounded-lg items-center gap-3 hover:bg-gray-200 dark:hover:bg-gray-700"
+              >
+                {user?.avatar ? (
+                  <img
+                    src={user.avatar}
+                    alt={user.fullName}
+                    className="w-8 h-8 rounded-full"
+                  />
+                ) : (
+                  <div className="flex w-8 h-8 bg-gray-500 text-white rounded-full items-center justify-center">
+                    {user?.fullName?.[0] || "U"}
+                  </div>
+                )}
+                <span className="text-gray-700 font-medium dark:text-gray-200">
+                  {user?.fullName || "Account"}
+                </span>
+              </button>
+
+              {openAccount && (
+                <div className="w-full p-2 bg-white rounded-lg shadow-lg absolute bottom-12 left-0 dark:bg-gray-800">
+                  <div className="flex items-center gap-3 p-2">
+                    {user?.avatar ? (
+                      <img
+                        src={user.avatar}
+                        alt={user.fullName}
+                        className="w-10 h-10 rounded-full"
+                      />
+                    ) : (
+                      <div className="flex w-10 h-10 bg-gray-500 text-white rounded-full items-center justify-center">
+                        {user?.fullName?.[0] || "U"}
+                      </div>
+                    )}
+                    <div>
+                      <p className="text-sm font-medium text-gray-800 dark:text-gray-200">
+                        {user?.fullName || "Unknown User"}
+                      </p>
+                      <p className="text-xs break-all text-gray-500 dark:text-gray-400">
+                        {user?.email || "No Email"}
+                      </p>
+                    </div>
+                  </div>
+
+                  <button
+                    onClick={handleLogout}
+                    className="w-full px-2 py-1 mt-2 text-left text-red-500 text-sm rounded dark:hover:bg-gray-700"
+                  >
+                    Logout
+                  </button>
+                </div>
+              )}
+            </div>
           </div>
+
           {/* overlay */}
           <div
             className="flex-1 bg-black bg-opacity-50"
