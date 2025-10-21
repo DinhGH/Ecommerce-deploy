@@ -34,6 +34,10 @@ EMAIL_PASS=
 <br>
 save .env
 <br>
+Create .env in client folder
+<br>
+VITE_API_URL=
+<br>
 Step 4:
 <br>
 Move to server folder: cd ../server
