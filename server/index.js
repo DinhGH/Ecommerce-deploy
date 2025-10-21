@@ -25,7 +25,10 @@ const app = express();
 
 app.use(
   cors({
-    origin: true, // tự động phản hồi theo header Origin gửi lên
+    origin: [
+      "https://ecommerce-deploy-virid.vercel.app", // cũ
+      "http://localhost:5173", // test local
+    ],
     credentials: true,
   })
 );
