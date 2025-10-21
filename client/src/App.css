@@ -1,0 +1,29 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+html,
+body {
+  width: 100%;
+  height: 100vh;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+/* Áp dụng cho toàn bộ trang */
+::-webkit-scrollbar {
+  width: 8px; /* độ rộng của scrollbar */
+  height: 8px; /* dùng cho scroll ngang */
+}
+
+::-webkit-scrollbar-track {
+  background: #f3f3f3; /* màu nền track */
+  border-radius: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #5a5a5a; /* màu thanh kéo */
+  border-radius: 8px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #444444; /* hover đậm hơn */
+}
