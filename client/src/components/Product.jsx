@@ -65,7 +65,9 @@ export default function Product() {
   const fetchProducts = async () => {
     try {
       const res = await axios.get(
-        `http://localhost:5000/api/admin/products?page=${page}&limit=10`
+        `${
+          import.meta.env.VITE_API_URL
+        }/api/admin/products?page=${page}&limit=10`
       );
       setProducts(res.data.data);
       setTotalPages(res.data.totalPages);
@@ -436,8 +438,8 @@ export default function Product() {
       fd.append("tags", JSON.stringify(tags.length ? tags : [])); // luôn gửi []
 
       const url = editing
-        ? `http://localhost:5000/api/admin/products/${editing}`
-        : "http://localhost:5000/api/admin/products";
+        ? `${import.meta.env.VITE_API_URL}/api/admin/products/${editing}`
+        : `${import.meta.env.VITE_API_URL}/api/admin/products`;
 
       const method = editing ? "put" : "post";
 
@@ -480,7 +482,7 @@ export default function Product() {
     try {
       setLoading(true);
       await axios.delete(
-        `http://localhost:5000/api/admin/products/${selectedId}`
+        `${import.meta.env.VITE_API_URL}/api/admin/products/${selectedId}`
       );
       setAnnouncement({ message: "Delete product successfully" });
       setTimeout(() => {

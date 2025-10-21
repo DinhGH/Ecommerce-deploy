@@ -18,7 +18,7 @@ export default function Orders() {
   useEffect(() => {
     setLoading(true);
     axios
-      .get("http://localhost:5000/api/orders/my-orders", {
+      .get(`${import.meta.env.VITE_API_URL}/api/orders/my-orders`, {
         withCredentials: true,
       })
       .then((res) => setOrders(res.data))
@@ -36,7 +36,7 @@ export default function Orders() {
     try {
       setLoading(true);
       const res = await axios.delete(
-        `http://localhost:5000/api/orders/my-orders/${orderId}`,
+        `${import.meta.env.VITE_API_URL}/api/orders/my-orders/${orderId}`,
         { withCredentials: true }
       );
 

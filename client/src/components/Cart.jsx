@@ -21,7 +21,7 @@ function Cart({ open, onClose, onCartUpdate }) {
 
   const fetchCart = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/cart", {
+      const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/cart`, {
         withCredentials: true,
       });
       const newIds = res.data.map((item) => item.id);
@@ -51,7 +51,7 @@ function Cart({ open, onClose, onCartUpdate }) {
   const updateQuantity = async (id, newQty) => {
     try {
       await axios.put(
-        `http://localhost:5000/api/cart/${id}`,
+        `${import.meta.env.VITE_API_URL}/api/cart/${id}`,
         { quantity: newQty },
         { withCredentials: true }
       );
@@ -89,7 +89,7 @@ function Cart({ open, onClose, onCartUpdate }) {
 
   const handleRemove = async (id) => {
     try {
-      await axios.delete(`http://localhost:5000/api/cart/${id}`, {
+      await axios.delete(`${import.meta.env.VITE_API_URL}/api/cart/${id}`, {
         withCredentials: true,
       });
 

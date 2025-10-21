@@ -24,9 +24,12 @@ export default function Profile() {
     const fetchUser = async () => {
       try {
         setLoading(true);
-        const res = await axios.get("http://localhost:5000/auth/user/me", {
-          withCredentials: true,
-        });
+        const res = await axios.get(
+          `${import.meta.env.VITE_API_URL}/auth/user/me`,
+          {
+            withCredentials: true,
+          }
+        );
 
         if (res.data.success) {
           // setUser(res.data.user);
@@ -104,7 +107,7 @@ export default function Profile() {
       }
 
       const res = await axios.put(
-        "http://localhost:5000/auth/user/update",
+        `${import.meta.env.VITE_API_URL}/auth/user/update`,
         data,
         {
           withCredentials: true,

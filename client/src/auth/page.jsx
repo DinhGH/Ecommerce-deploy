@@ -115,7 +115,7 @@ const LoginForm = () => {
     try {
       setLoading(true);
       const res = await axios.post(
-        "http://localhost:5000/auth/user/loginUser",
+        `${import.meta.env.VITE_API_URL}/auth/user/loginUser`,
         formData,
         { withCredentials: true }
       );
@@ -147,11 +147,11 @@ const LoginForm = () => {
   };
 
   const loginGoogle = () => {
-    window.location.href = "http://localhost:5000/auth/user/google";
+    window.location.href = `${import.meta.env.VITE_API_URL}/auth/user/google`;
   };
 
   const loginFacebook = () => {
-    window.location.href = "http://localhost:5000/auth/user/facebook";
+    window.location.href = `${import.meta.env.VITE_API_URL}/auth/user/facebook`;
   };
 
   return (
@@ -388,7 +388,7 @@ const RegisterForm = () => {
     try {
       setLoading(true);
       const res = await axios.post(
-        "http://localhost:5000/auth/user/createUser",
+        `${import.meta.env.VITE_API_URL}/auth/user/createUser`,
         formData
       );
       if (res.status === 201) {
@@ -423,11 +423,11 @@ const RegisterForm = () => {
   };
 
   const loginGoogle = () => {
-    window.location.href = "http://localhost:5000/auth/user/google";
+    window.location.href = `${import.meta.env.VITE_API_URL}/auth/user/google`;
   };
 
   const loginFacebook = () => {
-    window.location.href = "http://localhost:5000/auth/user/facebook";
+    window.location.href = `${import.meta.env.VITE_API_URL}/auth/user/facebook`;
   };
 
   return (

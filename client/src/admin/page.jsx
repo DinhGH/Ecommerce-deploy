@@ -71,9 +71,12 @@ export default function Admin() {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/auth/user/me", {
-          withCredentials: true,
-        });
+        const res = await axios.get(
+          `${import.meta.env.VITE_API_URL}/auth/user/me"`,
+          {
+            withCredentials: true,
+          }
+        );
         if (res.data.success) {
           setUser(res.data.user);
         }
@@ -88,7 +91,7 @@ export default function Admin() {
   const handleLogout = async () => {
     try {
       await axios.post(
-        "http://localhost:5000/auth/user/logoutUser",
+        `${import.meta.env.VITE_API_URL}/auth/user/logoutUser`,
         {},
         { withCredentials: true }
       );

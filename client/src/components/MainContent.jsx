@@ -72,7 +72,9 @@ export default function MainContent() {
 
   const fetchBrands = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/products/brands");
+      const res = await axios.get(
+        `${import.meta.env.VITE_API_URL}/api/products/brands`
+      );
       setBrands(res.data);
     } catch (error) {
       console.error("Error fetching brands:", error);
@@ -83,7 +85,9 @@ export default function MainContent() {
     try {
       setLoading(true);
       const res = await axios.get(
-        `http://localhost:5000/api/products/filter-brand?brand=${selectedbrand}&page=${page}&limit=12`
+        `${
+          import.meta.env.VITE_API_URL
+        }/api/products/filter-brand?brand=${selectedbrand}&page=${page}&limit=12`
       );
       setProducts(res.data.data || []);
       setTotalPages(res.data.totalPages || 1);
@@ -106,9 +110,13 @@ export default function MainContent() {
   const fetchProducts = async () => {
     setLoading(true);
     try {
-      let url = `http://localhost:5000/api/products?page=${page}&limit=12`;
+      let url = `${
+        import.meta.env.VITE_API_URL
+      }/api/products?page=${page}&limit=12`;
       if (keyword) {
-        url = `http://localhost:5000/api/products/search?q=${encodeURIComponent(
+        url = `${
+          import.meta.env.VITE_API_URL
+        }/api/products/search?q=${encodeURIComponent(
           keyword
         )}&page=${page}&limit=12`;
       }
@@ -127,7 +135,7 @@ export default function MainContent() {
   const fetchCategory = async () => {
     try {
       const res = await axios.get(
-        "http://localhost:5000/api/products/category"
+        `${import.meta.env.VITE_API_URL}/api/products/category`
       );
       setOptions(res.data);
     } catch (error) {
@@ -143,7 +151,9 @@ export default function MainContent() {
     try {
       setLoading(true);
       const res = await axios.get(
-        `http://localhost:5000/api/products/filter-category?category=${selectedopt}&page=${page}&limit=12`
+        `${
+          import.meta.env.VITE_API_URL
+        }/api/products/filter-category?category=${selectedopt}&page=${page}&limit=12`
       );
       setProducts(res.data.data || []);
       setTotalPages(res.data.totalPages || 1);
@@ -169,7 +179,9 @@ export default function MainContent() {
   const handleFilter = async () => {
     try {
       setLoading(true);
-      let url = `http://localhost:5000/api/products/filter?page=${page}&limit=12`;
+      let url = `${
+        import.meta.env.VITE_API_URL
+      }/api/products/filter?page=${page}&limit=12`;
 
       if (selectedopt && selectedopt !== "All") {
         url += `&category=${encodeURIComponent(selectedopt)}`;
@@ -209,7 +221,9 @@ export default function MainContent() {
 
   const fetchQuantity = async () => {
     axios
-      .get("http://localhost:5000/api/cart", { withCredentials: true })
+      .get(`${import.meta.env.VITE_API_URL}/api/cart`, {
+        withCredentials: true,
+      })
       .then((res) => {
         const total = res.data.reduce((sum, item) => sum + item.quantity, 0);
         setCartCount(total);

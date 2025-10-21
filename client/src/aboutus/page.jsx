@@ -129,7 +129,7 @@ export default function About() {
       }
 
       const res = await axios.post(
-        "http://localhost:5000/api/contact",
+        "${import.meta.env.VITE_API_URL}/api/contact",
         contactData
       );
       if (res.data.success) {
@@ -199,7 +199,7 @@ export default function About() {
       }
 
       const res = await axios.post(
-        "http://localhost:5000/api/report", // backend endpoint
+        `${import.meta.env.VITE_API_URL}/api/report`, // backend endpoint
         formData,
         { withCredentials: true }
       );

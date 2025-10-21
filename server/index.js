@@ -22,7 +22,7 @@ const { authMiddleware, requireRole } = require("./middlewares/authMiddleware");
 const app = express();
 app.use(
   cors({
-    origin: "http://localhost:5173", // frontend React
+    origin: "*", // frontend React
     credentials: true, // cho phép gửi cookie
   })
 );
@@ -48,5 +48,6 @@ app.use("/api/orders", orderRoutes);
 app.use("/api/report", reportRoutes);
 app.use("/api/contact", contactRoutes);
 
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`🚀 Server chạy http://localhost:${PORT}`));
+app.listen(process.env.PORT || 10000, () => {
+  console.log("Server is running on port", process.env.PORT || 10000);
+});

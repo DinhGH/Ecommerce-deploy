@@ -22,9 +22,12 @@ export default function ForgotPassword() {
         return;
       }
       setLoading(true);
-      await axios.post("http://localhost:5000/auth/user/forgot-password", {
-        email,
-      });
+      await axios.post(
+        `${import.meta.env.VITE_API_URL}/auth/user/forgot-password`,
+        {
+          email,
+        }
+      );
       setAnnouncement({
         message: "Check your email for reset link!",
       });

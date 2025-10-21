@@ -46,7 +46,7 @@ export default function User() {
     try {
       setLoading(true);
       const res = await axios.get(
-        `http://localhost:5000/api/admin/users?page=${page}&limit=10`
+        `${import.meta.env.VITE_API_URL}/api/admin/users?page=${page}&limit=10`
       );
       setUsers(res.data.data);
       setTotalPages(res.data.totalPages);
@@ -155,8 +155,8 @@ export default function User() {
       }
 
       const url = editing
-        ? `http://localhost:5000/api/admin/users/${editing}`
-        : "http://localhost:5000/api/admin/users";
+        ? `${import.meta.env.VITE_API_URL}/api/admin/users/${editing}`
+        : `${import.meta.env.VITE_API_URL}/api/admin/users`;
       const method = editing ? "put" : "post";
 
       await axios[method](url, fd, {
@@ -202,7 +202,9 @@ export default function User() {
   const onConfirmDelete = async () => {
     try {
       setLoading(true);
-      await axios.delete(`http://localhost:5000/api/admin/users/${selectedId}`);
+      await axios.delete(
+        `${import.meta.env.VITE_API_URL}/api/admin/users/${selectedId}`
+      );
       setAnnouncement({ message: "Delete user successfully" });
       setTimeout(() => {
         fetchUsers();

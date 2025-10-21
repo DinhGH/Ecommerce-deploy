@@ -48,7 +48,7 @@ export default function Order() {
     try {
       setLoading(true);
       const res = await axios.get(
-        `http://localhost:5000/api/admin/orders?page=${page}&limit=10`
+        `${import.meta.env.VITE_API_URL}/api/admin/orders?page=${page}&limit=10`
       );
       setOrders(res.data.data);
       setTotalPages(res.data.totalPages);
@@ -88,7 +88,7 @@ export default function Order() {
     try {
       setLoading(true);
       await axios.delete(
-        `http://localhost:5000/api/admin/orders/${selectedId}`
+        `${import.meta.env.VITE_API_URL}/api/admin/orders/${selectedId}`
       );
       setAnnouncement({
         type: "success",
@@ -114,7 +114,7 @@ export default function Order() {
     try {
       setLoading(true);
       await axios.put(
-        `http://localhost:5000/api/admin/orders/${orderId}/status`,
+        `${import.meta.env.VITE_API_URL}/api/admin/orders/${orderId}/status`,
         { status: newStatus }
       );
       setAnnouncement({ type: "success", message: "Order status updated!" });
@@ -305,8 +305,8 @@ export default function Order() {
       if (form.items.length) fd.append("items", JSON.stringify(form.items));
 
       const url = editing
-        ? `http://localhost:5000/api/admin/orders/${editing}`
-        : "http://localhost:5000/api/admin/orders";
+        ? `${import.meta.env.VITE_API_URL}/api/admin/orders/${editing}`
+        : `${import.meta.env.VITE_API_URL}/api/admin/orders`;
       const method = editing ? "put" : "post";
 
       await axios[method](url, fd, {
@@ -631,7 +631,9 @@ export default function Order() {
                       try {
                         if (newTitle.trim() !== "") {
                           const res = await axios.get(
-                            `http://localhost:5000/api/admin/products/title/${newTitle}`
+                            `${
+                              import.meta.env.VITE_API_URL
+                            }/api/admin/products/title/${newTitle}`
                           );
                           newItems[index].price = res.data.priceAfterDiscount;
                           newItems[index].productId = res.data.id;

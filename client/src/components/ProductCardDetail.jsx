@@ -35,7 +35,9 @@ export default function ProductCardDetail({ product, onClose, onCartUpdate }) {
 
   const fetchQuantity = async () => {
     axios
-      .get("http://localhost:5000/api/cart", { withCredentials: true })
+      .get(`${import.meta.env.VITE_API_URL}/api/cart`, {
+        withCredentials: true,
+      })
       .then((res) => {
         const total = res.data.reduce((sum, item) => sum + item.quantity, 0);
         onCartUpdate(total);
@@ -53,7 +55,7 @@ export default function ProductCardDetail({ product, onClose, onCartUpdate }) {
 
     try {
       await axios.post(
-        "http://localhost:5000/api/cart/add",
+        `${import.meta.env.VITE_API_URL}/api/cart/add`,
         { productId: product.id },
         { withCredentials: true }
       );
