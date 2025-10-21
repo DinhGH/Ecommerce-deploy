@@ -34,8 +34,8 @@ exports.login = async (req, res) => {
     const token = createToken(user);
     res.cookie("token", token, {
       httpOnly: true,
-      secure: false, // true nếu dùng HTTPS
-      sameSite: "lax",
+      secure: process.env.NODE_ENV === "production", // true khi deploy
+      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
     });
     return res.status(201).json({
       message: "Login successful",
@@ -50,8 +50,8 @@ exports.login = async (req, res) => {
 exports.logout = (req, res) => {
   res.clearCookie("token", {
     httpOnly: true,
-    sameSite: "lax",
-    secure: false,
+    secure: process.env.NODE_ENV === "production", // true khi deploy
+    sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
   });
   return res.status(200).json({ message: "Logged out successfully" });
 };

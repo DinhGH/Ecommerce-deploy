@@ -1,12 +1,14 @@
 require("dotenv").config();
 require("./strategies/googlee");
 require("./strategies/facebook");
-const cookieParser = require("cookie-parser");
 
 const express = require("express");
 const cors = require("cors");
 const session = require("express-session");
+const cookieParser = require("cookie-parser");
 const passport = require("passport");
+
+const { authMiddleware, requireRole } = require("./middlewares/authMiddleware");
 
 const productRoutes = require("./routes/productRoutes");
 const productRoutesC = require("./routes/productRoutesC");
@@ -17,25 +19,40 @@ const orderRoutes = require("./routes/orderRoutes");
 const reportRoutes = require("./routes/reportRoutes");
 const contactRoutes = require("./routes/contactRoutes");
 const orderRoutesAdmin = require("./routes/orderRoutesAdmin");
-const { authMiddleware, requireRole } = require("./middlewares/authMiddleware");
 
 const app = express();
+
+// ⚠️ Bật CORS TRƯỚC tất cả middleware khác
 app.use(
   cors({
     origin: [
-      "https://ecommerce-deploy-virid.vercel.app", // domain frontend trên Vercel
-      "http://localhost:5173", // để test local
+      "https://ecommerce-deploy-virid.vercel.app", // frontend Vercel
+      "http://localhost:5173", // test local
     ],
-    credentials: true,
+    credentials: true, // Cho phép cookie, session
   })
 );
+
+app.use(express.json());
 app.use(cookieParser());
-app.use(session({ secret: "secret", resave: false, saveUninitialized: true }));
+
+// ⚙️ Cấu hình session — cần thiết nếu dùng passport
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET || "secret-key",
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      secure: process.env.NODE_ENV === "production", // bật true khi deploy HTTPS
+      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+    },
+  })
+);
+
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use(express.json());
-
+// 🧩 Các route
 app.use("/api/products", productRoutesC);
 app.use("/auth/user", authRoutes);
 
@@ -45,12 +62,16 @@ app.use("/api/admin/users", userRoutes);
 app.use("/api/admin/orders", orderRoutesAdmin);
 
 app.use("/api/cart", cartRoutes);
-
 app.use("/api/orders", orderRoutes);
-
 app.use("/api/report", reportRoutes);
 app.use("/api/contact", contactRoutes);
 
-app.listen(process.env.PORT || 10000, () => {
-  console.log("Server is running on port", process.env.PORT || 10000);
+// 🧠 Kiểm tra server
+app.get("/", (req, res) => {
+  res.send("✅ Backend is running on Render!");
+});
+
+const PORT = process.env.PORT || 10000;
+app.listen(PORT, () => {
+  console.log(`🚀 Server is running on port ${PORT}`);
 });
