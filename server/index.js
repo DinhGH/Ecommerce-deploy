@@ -23,13 +23,21 @@ const orderRoutesAdmin = require("./routes/orderRoutesAdmin");
 const app = express();
 
 // ⚠️ Bật CORS TRƯỚC tất cả middleware khác
+const allowedOrigins = [
+  "https://ecommerce-deploy-73ifrv36n-dinhs-projects-e150df4e.vercel.app",
+  "https://ecommerce-deploy-virid.vercel.app",
+  "http://localhost:5173",
+];
+
 app.use(
   cors({
-    origin: [
-      "https://ecommerce-deploy-73ifrv36n-dinhs-projects-e150df4e.vercel.app",
-      "https://ecommerce-deploy-virid.vercel.app",
-      "http://localhost:5173",
-    ],
+    origin: function (origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
     credentials: true,
   })
 );
