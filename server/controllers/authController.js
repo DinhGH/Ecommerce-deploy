@@ -100,7 +100,7 @@ exports.googleCallback = (req, res) => {
     maxAge: 60 * 60 * 1000, // 1 hour
   });
 
-  res.redirect(`${process.env.BASE_URL}/?loggedIn=true`);
+  res.redirect(`${process.env.FRONT_URL}/?loggedIn=true`);
 };
 
 exports.getUserInfo = async (req, res) => {
@@ -137,7 +137,7 @@ exports.getUserInfo = async (req, res) => {
 
 exports.facebookCallback = (req, res) => {
   const token = createToken(req.user);
-  res.redirect(`${process.env.BASE_URL}/?token=${token}`);
+  res.redirect(`${process.env.FRONT_URL}/?token=${token}`);
 };
 
 exports.forgotPassword = async (req, res) => {
