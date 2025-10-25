@@ -45,10 +45,6 @@ app.use(
     },
   })
 );
-console.log(
-  "🔍 CALLBACK URL SENT TO GOOGLE:",
-  `${process.env.BASE_URL}/auth/user/google/callback`
-);
 
 app.use(passport.initialize());
 app.use(passport.session());

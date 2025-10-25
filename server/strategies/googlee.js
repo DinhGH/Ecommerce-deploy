@@ -18,8 +18,8 @@ passport.use(
         if (!user) {
           user = await createUser({
             fullName: profile.displayName,
-            email,
-            password: null,
+            email: email,
+            password: "",
             phone: null,
             address: null,
             age: null,
@@ -32,6 +32,7 @@ passport.use(
         return done(null, { ...user, isNew });
       } catch (err) {
         console.error("❌ Google login error:", err);
+        console.error(err.stack);
         return done(err, null);
       }
     }

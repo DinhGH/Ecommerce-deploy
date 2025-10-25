@@ -90,13 +90,19 @@ exports.register = async (req, res) => {
 
 // Callback Google
 exports.googleCallback = (req, res) => {
+  console.log("⚡ Google Callback user:", req.user);
+
+  if (!req.user) {
+    console.error("❌ Không có req.user trong callback");
+    return res.status(400).json({ error: "Missing user data" });
+  }
   const token = createToken(req.user);
 
   // In your login controllers, use consistent settings:
   res.cookie("token", token, {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production", // true in production
-    sameSite: "lax", // or "strict"
+    sameSite: process.env.NODE_ENV === "production" ? "none" : "lax", // or "strict"
     maxAge: 60 * 60 * 1000, // 1 hour
   });
 
