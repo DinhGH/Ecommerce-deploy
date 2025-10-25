@@ -100,7 +100,7 @@ exports.googleCallback = (req, res) => {
     maxAge: 60 * 60 * 1000, // 1 hour
   });
 
-  res.redirect(`${process.env.FRONT_URL}/?loggedIn=true`);
+  res.redirect(`${process.env.fRONT_URL}/?loggedIn=true`);
 };
 
 exports.getUserInfo = async (req, res) => {
