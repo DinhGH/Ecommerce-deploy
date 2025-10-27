@@ -111,6 +111,36 @@ const LoginForm = () => {
     }));
   };
 
+  useEffect(() => {
+    // Kiểm tra xem URL có loggedIn=true không
+    const params = new URLSearchParams(window.location.search);
+    const loggedIn = params.get("loggedIn");
+
+    if (loggedIn === "true") {
+      // Gọi API /me để lấy thông tin user từ backend
+      axios
+        .get(`${import.meta.env.VITE_API_URL}/api/me`, {
+          withCredentials: true,
+        })
+        .then((res) => {
+          const user = res.data;
+          // Lưu user vào localStorage
+          localStorage.setItem("user", JSON.stringify(user));
+          console.log("✅ Logged in via social login:", user);
+
+          // Chuyển hướng sang trang chính hoặc dashboard
+          if (user.role === "ADMIN") {
+            navigate("/admin");
+          } else {
+            navigate("/");
+          }
+        })
+        .catch((err) => {
+          console.error("❌ Lỗi khi lấy user sau social login:", err);
+        });
+    }
+  }, [navigate]);
+
   const handleSubmit = async () => {
     try {
       setLoading(true);
