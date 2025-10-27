@@ -8,6 +8,7 @@ passport.use(
       clientID: process.env.FACEBOOK_APP_ID, // KHÔNG có dấu ""
       clientSecret: process.env.FACEBOOK_APP_SECRET,
       callbackURL: `${process.env.BASE_URL}/auth/user/facebook/callback`,
+      profileFields: ["id", "displayName", "emails"],
     },
     async (accessToken, refreshToken, profile, done) => {
       try {
