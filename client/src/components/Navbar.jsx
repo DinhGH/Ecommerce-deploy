@@ -91,12 +91,14 @@ export default function Navbar({ onSearch, setPage, cartCount, onCartClick }) {
 
         if (res.data.success) {
           setUser(res.data.user);
+          localStorage.setItem("user", JSON.stringify(res.data.user)); // 🟢 THÊM DÒNG NÀY
         }
       } catch (err) {
         if (err.response?.status !== 401) {
-          console.error(err); // chỉ log lỗi khác 401
+          console.error(err);
         }
         setUser(null);
+        localStorage.removeItem("user"); // 🔴 Xoá user nếu không còn đăng nhập
       }
     };
 
@@ -104,11 +106,9 @@ export default function Navbar({ onSearch, setPage, cartCount, onCartClick }) {
     const loggedIn = query.get("loggedIn");
 
     if (loggedIn === "true") {
-      // vừa đăng nhập xong
       checkAuth();
       window.history.replaceState({}, document.title, "/");
     } else {
-      // load lại trang -> check xem còn cookie/session không
       checkAuth();
     }
   }, []);
