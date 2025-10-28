@@ -46,7 +46,23 @@ const updateUser = async (id, payload) => {
 };
 
 const deleteUser = async (id) => {
-  return prisma.user.delete({ where: { id: Number(id) } });
+  try {
+    const userId = Number(id);
+    await prisma.passwordResetToken.deleteMany({ where: { userId } });
+    await prisma.reportIssue.deleteMany({ where: { userId } });
+    await prisma.cart.deleteMany({ where: { userId } });
+    await prisma.order.deleteMany({ where: { userId } });
+
+    const deletedUser = await prisma.user.delete({
+      where: { id: userId },
+    });
+
+    console.log("✅ Đã xóa user:", deletedUser.email || deletedUser.id);
+    return deletedUser;
+  } catch (error) {
+    console.error("❌ Lỗi khi xóa user:", error.message);
+    throw error;
+  }
 };
 
 module.exports = {

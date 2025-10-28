@@ -16,7 +16,7 @@ model Product {
   discountPercentage   Float?
   rating               Float?
   stock                Int
-  tags                 Json? // JSON thay cho String[]
+  tags                 Json?
   brand                String?
   sku                  String?
   weight               Int?
@@ -26,21 +26,18 @@ model Product {
   returnPolicy         String?
   minimumOrderQuantity Int?
   thumbnail            String?
-  images               Json? // mảng URL ảnh
+  images               Json?
 
-  // Gom Dimensions vào Product
   width  Float?
   height Float?
   depth  Float?
 
-  // Gom Meta vào Product
   barcode String?
   qrCode  String?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  // Quan hệ
   reviews    Review[]
   cartItems  CartItem[]
   orderItems OrderItem[]
@@ -53,7 +50,7 @@ model Review {
   date          DateTime @default(now())
   reviewerName  String
   reviewerEmail String
-  product       Product  @relation(fields: [productId], references: [id])
+  product       Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
   productId     Int
 }
 
@@ -76,33 +73,32 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  carts  Cart[]
-  orders Order[]
+  carts               Cart[]
+  orders              Order[]
+  PasswordResetTokens PasswordResetToken[]
+  reportIssues        ReportIssue[]
 
-  resetToken         String?
-  resetExpire        DateTime?
-  PasswordResetToken PasswordResetToken[]
-  reportIssues       ReportIssue[]
-  refreshToken       String?
+  resetToken   String?
+  resetExpire  DateTime?
+  refreshToken String?
 }
 
 model ReportIssue {
   id          Int      @id @default(autoincrement())
   orderId     String
   productName String
-  issueType   String // damaged, wrong, missing, other
+  issueType   String
   description String?
   imageUrl    String?
   createdAt   DateTime @default(now())
 
-  // Nếu muốn liên kết với User
-  user   User? @relation(fields: [userId], references: [id])
-  userId Int
+  user   User? @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId Int?
 }
 
 model Cart {
   id        Int        @id @default(autoincrement())
-  user      User       @relation(fields: [userId], references: [id])
+  user      User       @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    Int
   items     CartItem[]
   createdAt DateTime   @default(now())
@@ -111,22 +107,22 @@ model Cart {
 
 model CartItem {
   id        Int     @id @default(autoincrement())
-  cart      Cart    @relation(fields: [cartId], references: [id])
+  cart      Cart    @relation(fields: [cartId], references: [id], onDelete: Cascade)
   cartId    Int
-  product   Product @relation(fields: [productId], references: [id])
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
   productId Int
   quantity  Int     @default(1)
 
-  @@unique([cartId, productId]) // tránh trùng 1 sp nhiều lần trong giỏ
+  @@unique([cartId, productId])
 }
 
 model Order {
   id     Int         @id @default(autoincrement())
-  user   User        @relation(fields: [userId], references: [id])
+  user   User        @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId Int
   items  OrderItem[]
   total  Float
-  status String      @default("PENDING") // PENDING, PAID, SHIPPED, COMPLETED, CANCELLED
+  status String      @default("PENDING")
 
   recipientName  String
   recipientPhone String
@@ -145,9 +141,9 @@ model Order {
 
 model OrderItem {
   id        Int     @id @default(autoincrement())
-  order     Order   @relation(fields: [orderId], references: [id])
+  order     Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
   orderId   Int
-  product   Product @relation(fields: [productId], references: [id])
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
   productId Int
   quantity  Int
   price     Float
@@ -156,7 +152,7 @@ model OrderItem {
 model PasswordResetToken {
   id        Int      @id @default(autoincrement())
   token     String   @unique
-  user      User     @relation(fields: [userId], references: [id])
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    Int
   expiresAt DateTime
   createdAt DateTime @default(now())
