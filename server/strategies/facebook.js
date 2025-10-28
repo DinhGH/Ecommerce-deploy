@@ -23,7 +23,7 @@ passport.use(
         if (!user) {
           user = await createUser({
             fullName: profile.displayName,
-            email: email || "", // fallback nếu không có email
+            email: email || `${profile.id}@facebook.temp`,
             password: "",
             phone: null,
             address: null,
