@@ -20,6 +20,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Announcement from "./Announcement";
+import { ElegantSpinner } from "./ui/Loading";
 
 export default function ProductCardDetail({ product, onClose, onCartUpdate }) {
   const [announcement, setAnnouncement] = useState(0);
