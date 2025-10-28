@@ -311,7 +311,7 @@ export default function ProductCardDetail({ product, onClose, onCartUpdate }) {
 
       {announcement === 1 && <Announcement message="Product added to cart!" />}
       <div className="relative top-0 left-0">
-        {loading && <ElegantSpinner message="Register..." />}
+        {loading && <ElegantSpinner message="Adding..." />}
       </div>
       {announcement === 2 && (
         <Announcement type="error" message="Failed to add to cart!" />
