@@ -1,29 +1,30 @@
 const passport = require("passport");
 const FacebookStrategy = require("passport-facebook").Strategy;
-const { getUser, createUser } = require("../services/authService"); // service DB
+const { getUser, createUser } = require("../services/authService");
 
 passport.use(
   new FacebookStrategy(
     {
-      clientID: process.env.FACEBOOK_APP_ID, // KHÔNG có dấu ""
+      clientID: process.env.FACEBOOK_APP_ID,
       clientSecret: process.env.FACEBOOK_APP_SECRET,
       callbackURL: `${process.env.BASE_URL}/auth/user/facebook/callback`,
       profileFields: ["id", "displayName", "emails"],
     },
     async (accessToken, refreshToken, profile, done) => {
       try {
-        const email = profile.emails?.[0]?.value; // Facebook đôi khi không trả email
-        let user = null;
+        const email = profile.emails?.[0]?.value;
+        const fallbackEmail = `${profile.id}@facebook.temp`; // email tạm nếu không có
+        const finalEmail = email || fallbackEmail;
+
+        // 👉 kiểm tra user bằng email hoặc email tạm
+        let user = await getUser(finalEmail);
         let isNew = false;
 
-        if (email) {
-          user = await getUser(email);
-        }
-
         if (!user) {
+          // tạo user mới nếu chưa tồn tại
           user = await createUser({
             fullName: profile.displayName,
-            email: email || `${profile.id}@facebook.temp`,
+            email: finalEmail,
             password: "",
             phone: null,
             address: null,
@@ -33,11 +34,9 @@ passport.use(
           isNew = true;
         }
 
-        // trả về user và flag
         return done(null, { ...user, isNew });
       } catch (err) {
         console.error("❌ Facebook login error:", err);
-        console.error(err.stack);
         return done(err, null);
       }
     }
