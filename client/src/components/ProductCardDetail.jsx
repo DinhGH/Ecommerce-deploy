@@ -23,6 +23,7 @@ import Announcement from "./Announcement";
 
 export default function ProductCardDetail({ product, onClose, onCartUpdate }) {
   const [announcement, setAnnouncement] = useState(0);
+  const [loading, setLoading] = useState(false);
   if (!product) return null;
 
   const [mainImage, setMainImage] = useState(product.thumbnail);
@@ -46,6 +47,7 @@ export default function ProductCardDetail({ product, onClose, onCartUpdate }) {
   };
 
   const handleAddToCart = async () => {
+    setLoading(true);
     const user = localStorage.getItem("user");
 
     if (!user) {
@@ -70,6 +72,8 @@ export default function ProductCardDetail({ product, onClose, onCartUpdate }) {
         setAnnouncement(2);
         setTimeout(() => setAnnouncement(0), 4000);
       }
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -305,6 +309,9 @@ export default function ProductCardDetail({ product, onClose, onCartUpdate }) {
       </motion.div>
 
       {announcement === 1 && <Announcement message="Product added to cart!" />}
+      <div className="relative top-0 left-0">
+        {loading && <ElegantSpinner message="Register..." />}
+      </div>
       {announcement === 2 && (
         <Announcement type="error" message="Failed to add to cart!" />
       )}
