@@ -444,19 +444,7 @@ const RegisterForm = () => {
             required
             name="fullName"
             value={formData.fullName}
-            onChange={(e) => {
-              handleInputChange(e);
-              const value = e.target.value;
-
-              if (value.length >= 50) {
-                setAnnouncement({
-                  type: "error",
-                  message: "Full name cannot exceed 50 characters.",
-                });
-              } else {
-                setAnnouncement(null);
-              }
-            }}
+            onChange={handleInputChange}
             className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-black focus:border-transparent transition-all"
             placeholder="Enter your full name"
             maxLength={50}
@@ -474,19 +462,7 @@ const RegisterForm = () => {
             required
             name="email"
             value={formData.email}
-            onChange={(e) => {
-              handleInputChange(e);
-              const value = e.target.value;
-
-              if (!value.includes("@")) {
-                setAnnouncement({
-                  type: "error",
-                  message: "Email must contain '@'.",
-                });
-              } else {
-                setAnnouncement(null);
-              }
-            }}
+            onChange={handleInputChange}
             className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-black focus:border-transparent transition-all"
             placeholder="Enter your email address"
           />
@@ -503,19 +479,7 @@ const RegisterForm = () => {
             required
             name="phone"
             value={formData.phone}
-            onChange={(e) => {
-              handleInputChange(e);
-              const value = e.target.value;
-
-              if (value.length !== 10) {
-                setAnnouncement({
-                  type: "error",
-                  message: "Phone number must be exactly 10 digits.",
-                });
-              } else {
-                setAnnouncement(null);
-              }
-            }}
+            onChange={handleInputChange}
             className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-black focus:border-transparent transition-all"
             placeholder="Enter your phone number"
           />
@@ -533,19 +497,7 @@ const RegisterForm = () => {
             maxLength={100}
             name="address"
             value={formData.address}
-            onChange={(e) => {
-              handleInputChange(e);
-              const value = e.target.value;
-
-              if (value.length >= 100) {
-                setAnnouncement({
-                  type: "error",
-                  message: "Address cannot exceed 50 characters.",
-                });
-              } else {
-                setAnnouncement(null);
-              }
-            }}
+            onChange={handleInputChange}
             className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-black focus:border-transparent transition-all"
             placeholder="Enter your address"
           />
@@ -568,17 +520,6 @@ const RegisterForm = () => {
               placeholder="Age"
               min="0"
               max="150"
-              onInput={(e) => {
-                const value = Number(e.target.value);
-                if (value < 0 || value > 150) {
-                  setAnnouncement({
-                    type: "error",
-                    message: "Age must be between 0 and 150",
-                  });
-                } else {
-                  setAnnouncement(null);
-                }
-              }}
             />
           </div>
 
@@ -612,21 +553,7 @@ const RegisterForm = () => {
               type={showPassword ? "text" : "password"}
               name="password"
               value={formData.password}
-              onChange={(e) => {
-                handleInputChange(e);
-                const value = e.target.value;
-                const regex =
-                  /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/;
-                if (!regex.test(value)) {
-                  setAnnouncement({
-                    type: "error",
-                    message:
-                      "Password must be at least 8 characters, include uppercase, lowercase, number, and special character.",
-                  });
-                } else {
-                  setAnnouncement(null);
-                }
-              }}
+              onChange={handleInputChange}
               className="w-full px-4 py-3 pr-12 border border-gray-300 rounded-lg focus:ring-2 focus:ring-black focus:border-transparent transition-all"
               placeholder="Create a strong password"
               required
@@ -654,21 +581,7 @@ const RegisterForm = () => {
               required
               className="w-full px-4 py-3 pr-12 border border-gray-300 rounded-lg focus:ring-2 focus:ring-black focus:border-transparent transition-all"
               placeholder="Re-enter password"
-              onChange={(e) => {
-                handleInputChange(e);
-                const value = e.target.value;
-                const regex =
-                  /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/;
-                if (!regex.test(value)) {
-                  setAnnouncement({
-                    type: "error",
-                    message:
-                      "Password must be at least 8 characters, include uppercase, lowercase, number, and special character.",
-                  });
-                } else {
-                  setAnnouncement(null);
-                }
-              }}
+              onChange={handleInputChange}
             />
             <button
               type="button"
