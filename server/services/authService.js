@@ -42,6 +42,13 @@ const getUserById = async (id) => {
 };
 
 const forgotPassword = async (email) => {
+  // 1️⃣ Tìm user
+  const user = await prisma.user.findUnique({ where: { email } });
+  if (!user) {
+    throw new Error("User not found with this email");
+  }
+
+  // 2️⃣ Tạo token
   const resetToken = crypto.randomBytes(32).toString("hex");
 
   // 3️⃣ Lưu token + hạn 15 phút
