@@ -266,19 +266,7 @@ export default function About() {
               <input
                 name="name"
                 value={contactData.name}
-                onChange={(e) => {
-                  handleContactChange(e);
-                  const value = e.target.value;
-
-                  if (value.length >= 50) {
-                    setAnnouncement({
-                      type: "error",
-                      message: "Your name cannot exceed 50 characters.",
-                    });
-                  } else {
-                    setAnnouncement(null);
-                  }
-                }}
+                onChange={handleContactChange}
                 className="w-full border border-gray-600 bg-gray-100 p-3 rounded-lg text-gray-900"
                 placeholder="Your Name"
               />
@@ -294,57 +282,21 @@ export default function About() {
                 name="phone"
                 type="tel"
                 value={contactData.phone}
-                onChange={(e) => {
-                  handleContactChange(e);
-                  const value = e.target.value;
-
-                  if (value.length !== 10) {
-                    setAnnouncement({
-                      type: "error",
-                      message: "Phone number must be exactly 10 digits.",
-                    });
-                  } else {
-                    setAnnouncement(null);
-                  }
-                }}
+                onChange={handleContactChange}
                 className="w-full border border-gray-600 bg-gray-100 p-3 rounded-lg text-gray-900"
                 placeholder="Phone"
               />
               <input
                 name="subject"
                 value={contactData.subject}
-                onChange={(e) => {
-                  handleContactChange(e);
-                  const value = e.target.value;
-
-                  if (value.length >= 50) {
-                    setAnnouncement({
-                      type: "error",
-                      message: "Subject cannot exceed 50 characters.",
-                    });
-                  } else {
-                    setAnnouncement(null);
-                  }
-                }}
+                onChange={handleContactChange}
                 className="w-full border border-gray-600 bg-gray-100 p-3 rounded-lg text-gray-900"
                 placeholder="Subject"
               />
               <textarea
                 name="message"
                 value={contactData.message}
-                onChange={(e) => {
-                  handleContactChange(e);
-                  const value = e.target.value;
-
-                  if (value.length >= 700) {
-                    setAnnouncement({
-                      type: "error",
-                      message: "Message cannot exceed 700 characters.",
-                    });
-                  } else {
-                    setAnnouncement(null);
-                  }
-                }}
+                onChange={handleContactChange}
                 rows="4"
                 className="w-full border border-gray-600 bg-gray-100 p-3 rounded-lg text-gray-900"
                 placeholder="Message"

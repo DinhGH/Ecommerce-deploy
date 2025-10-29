@@ -1,8 +1,10 @@
-const nodemailer = require("nodemailer");
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 const crypto = require("crypto");
 const { streamUpload } = require("../middlewares/cloudinary");
+const { Resend } = require("resend");
+
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 const createUser = async (userData) => {
   return await prisma.user.create({
@@ -40,38 +42,28 @@ const getUserById = async (id) => {
 };
 
 const forgotPassword = async (email) => {
-  // 1. Tìm user trong DB
-  const user = await prisma.user.findUnique({ where: { email } });
-  if (!user) {
-    throw new Error("User not found with this email");
-  }
-
-  // 2. Tạo token reset
   const resetToken = crypto.randomBytes(32).toString("hex");
 
-  // 3. Lưu token vào DB (thêm bảng hoặc cột resetToken, resetExpire)
+  // 3️⃣ Lưu token + hạn 15 phút
   await prisma.user.update({
     where: { email },
     data: {
       resetToken,
-      resetExpire: new Date(Date.now() + 15 * 60 * 1000), // 15 phút
+      resetExpire: new Date(Date.now() + 15 * 60 * 1000),
     },
   });
 
-  // 4. Gửi email
-  const transporter = nodemailer.createTransport({
-    service: "gmail",
-    auth: { user: process.env.EMAIL_USER, pass: process.env.EMAIL_PASS },
-  });
+  // 4️⃣ Gửi email bằng Resend API
+  const resetUrl = `${process.env.FRONT_URL}/reset-password/${resetToken}`;
 
-  const resetUrl = `http://localhost:5173/reset-password/${resetToken}`;
-
-  await transporter.sendMail({
-    from: '"Support" <huynhtandinh.dev@gmail.com>',
+  await resend.emails.send({
+    from: "Support <onboarding@resend.dev>",
     to: email,
     subject: "Password Reset",
-    text: `Click here to reset password: ${resetUrl}. Expire in 15 minutes.`,
+    text: `Click here to reset your password: ${resetUrl}\n\nThis link will expire in 15 minutes.`,
   });
+
+  console.log(`Password reset email sent to ${email}`);
 };
 
 const resetPassword = async (token, passwordHash) => {
