@@ -39,7 +39,7 @@ const getUserById = async (id) => {
   });
 };
 
-export const forgotPassword = async (email) => {
+const forgotPassword = async (email) => {
   // 1️⃣ Tìm user trong DB
   const user = await prisma.user.findUnique({ where: { email } });
   if (!user) {
