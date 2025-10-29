@@ -1,44 +1,38 @@
 const passport = require("passport");
-const FacebookStrategy = require("passport-facebook").Strategy;
-const { getUser, createUser } = require("../services/authService");
+const GoogleStrategy = require("passport-google-oauth20").Strategy;
+const { getUser, createUser } = require("../services/authService"); // service DB
 
 passport.use(
-  new FacebookStrategy(
+  new GoogleStrategy(
     {
-      clientID: process.env.FACEBOOK_APP_ID,
-      clientSecret: process.env.FACEBOOK_APP_SECRET,
-      callbackURL: `${process.env.BASE_URL}/auth/user/facebook/callback`,
-      profileFields: ["id", "displayName", "emails"],
+      clientID: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+      callbackURL: `${process.env.BASE_URL}/auth/user/google/callback`,
     },
     async (accessToken, refreshToken, profile, done) => {
       try {
-        // 🟢 Lấy email hoặc tạo email ảo
-        const email =
-          profile.emails?.[0]?.value || `${profile.id}@facebook.temp`;
-
-        // 🟢 Tìm user trong DB theo email
+        const email = profile.emails?.[0]?.value;
         let user = await getUser(email);
-        let isNew = false;
 
-        // 🟢 Nếu chưa có thì tạo mới
+        let isNew = false;
         if (!user) {
           user = await createUser({
-            fullName: profile.displayName || "Facebook User",
-            email,
+            fullName: profile.displayName,
+            email: email,
             password: "",
             phone: null,
             address: null,
             age: null,
             gender: null,
-            provider: "facebook",
-            providerId: profile.id, // thêm để tra cứu chính xác
           });
           isNew = true;
         }
 
+        // chỉ trả về user, thêm flag riêng
         return done(null, { ...user, isNew });
       } catch (err) {
-        console.error("❌ Facebook login error:", err);
+        console.error("❌ Google login error:", err);
+        console.error(err.stack);
         return done(err, null);
       }
     }
