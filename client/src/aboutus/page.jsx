@@ -129,7 +129,7 @@ export default function About() {
       }
 
       const res = await axios.post(
-        "${import.meta.env.VITE_API_URL}/api/contact",
+        `${import.meta.env.VITE_API_URL}/api/contact`,
         contactData
       );
       if (res.data.success) {
