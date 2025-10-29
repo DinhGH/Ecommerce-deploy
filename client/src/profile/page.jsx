@@ -169,19 +169,7 @@ export default function Profile() {
           type="text"
           name="fullName"
           value={formData.fullName}
-          onChange={(e) => {
-            handleChange(e);
-            const value = e.target.value;
-
-            if (value.length >= 50) {
-              setAnnouncement({
-                type: "error",
-                message: "Phone number must be exactly 10 digits.",
-              });
-            } else {
-              setAnnouncement(null);
-            }
-          }}
+          onChange={handleChange}
           disabled={!editMode}
           placeholder="Full Name"
           className="border px-3 py-2 rounded"
@@ -190,20 +178,7 @@ export default function Profile() {
           type="email"
           name="email"
           value={formData.email}
-          onChange={(e) => {
-            handleChange(e);
-            const value = e.target.value;
-
-            const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (!regex.test(value)) {
-              setAnnouncement({
-                type: "error",
-                message: "Please enter a valid email address.",
-              });
-            } else {
-              setAnnouncement(null);
-            }
-          }}
+          onChange={handleChange}
           disabled={!editMode}
           placeholder="Email"
           className="border px-3 py-2 rounded"
@@ -212,19 +187,7 @@ export default function Profile() {
           type="text"
           name="phone"
           value={formData.phone}
-          onChange={(e) => {
-            handleChange(e);
-            const value = e.target.value;
-
-            if (!/^\d{10}$/.test(value)) {
-              setAnnouncement({
-                type: "error",
-                message: "Phone number must be exactly 10 digits.",
-              });
-            } else {
-              setAnnouncement(null);
-            }
-          }}
+          onChange={handleChange}
           disabled={!editMode}
           placeholder="Phone"
           className="border px-3 py-2 rounded"
@@ -242,18 +205,7 @@ export default function Profile() {
           type="number"
           name="age"
           value={formData.age}
-          onChange={(e) => {
-            handleChange(e);
-            const value = Number(e.target.value);
-            if (value < 0 || value > 150) {
-              setAnnouncement({
-                type: "error",
-                message: "Age must be between 0 and 150",
-              });
-            } else {
-              setAnnouncement(null);
-            }
-          }}
+          onChange={handleChange}
           disabled={!editMode}
           placeholder="Age"
           className="border px-3 py-2 rounded"
