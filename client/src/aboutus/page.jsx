@@ -95,19 +95,26 @@ export default function About() {
         });
         return;
       }
+      if (contactData.name.length >= 50) {
+        setAnnouncement({
+          type: "error",
+          message: "Your name cannot exceed 50 characters.",
+        });
+        return;
+      }
+
+      if (!contactData.email.includes("@")) {
+        setAnnouncement({
+          type: "error",
+          message: "Your emaill is invalid!.",
+        });
+        return;
+      }
 
       if (contactData.phone.length !== 10) {
         setAnnouncement({
           type: "error",
           message: "Phone number is invalid!",
-        });
-        return;
-      }
-
-      if (contactData.name.length >= 50) {
-        setAnnouncement({
-          type: "error",
-          message: "Your name cannot exceed 50 characters.",
         });
         return;
       }
@@ -272,7 +279,7 @@ export default function About() {
               />
               <input
                 name="email"
-                type="email"
+                type="text"
                 value={contactData.email}
                 onChange={handleContactChange}
                 className="w-full border border-gray-600 bg-gray-100 p-3 rounded-lg text-gray-900"
