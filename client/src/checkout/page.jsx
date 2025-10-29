@@ -92,6 +92,20 @@ export default function Checkout() {
       return;
     }
 
+    if (
+      houseNumber.length > 50 ||
+      street.length > 50 ||
+      ward.length > 50 ||
+      province.length > 50 ||
+      country.length > 50
+    ) {
+      setAnnouncement({
+        type: "error",
+        message: "Address fields cannot exceed 50 characters.",
+      });
+      return;
+    }
+
     const selectedDate = new Date(deliveryTime);
     const now = new Date();
 
@@ -178,16 +192,6 @@ export default function Checkout() {
             value={recipientName}
             onChange={(e) => {
               setRecipientName(e.target.value);
-              const value = e.target.value;
-
-              if (value.length >= 50) {
-                setAnnouncement({
-                  type: "error",
-                  message: "AltRecipient name cannot exceed 50 characters.",
-                });
-              } else {
-                setAnnouncement(null);
-              }
             }}
           />
         </div>
@@ -210,16 +214,6 @@ export default function Checkout() {
             value={phone}
             onChange={(e) => {
               setPhone(e.target.value);
-              const value = e.target.value;
-
-              if (value.length !== 10) {
-                setAnnouncement({
-                  type: "error",
-                  message: "Phone number must be exactly 10 digits.",
-                });
-              } else {
-                setAnnouncement(null);
-              }
             }}
           />
         </div>
@@ -232,16 +226,6 @@ export default function Checkout() {
             value={altRecipientName}
             onChange={(e) => {
               setAltRecipientName(e.target.value);
-              const value = e.target.value;
-
-              if (value.length >= 50) {
-                setAnnouncement({
-                  type: "error",
-                  message: "AltRecipient name cannot exceed 50 characters.",
-                });
-              } else {
-                setAnnouncement(null);
-              }
             }}
           />
         </div>
@@ -254,16 +238,6 @@ export default function Checkout() {
             value={altPhone}
             onChange={(e) => {
               setAltPhone(e.target.value);
-              const value = e.target.value;
-
-              if (value.length !== 10) {
-                setAnnouncement({
-                  type: "error",
-                  message: "Phone number must be exactly 10 digits.",
-                });
-              } else {
-                setAnnouncement(null);
-              }
             }}
           />
         </div>
