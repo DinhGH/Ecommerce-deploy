@@ -29,7 +29,7 @@ export default function App() {
       <Route path="/profile" element={<Profile />} />
       <Route path="/orders" element={<Order />} />
       <Route path="/forgot-password" element={<ForgotPassword />} />
-      <Route path="/reset-password/:token" element={<ResetPassword />} />
+      <Route path="/reset-password" element={<ResetPassword />} />
       <Route
         path="/reject"
         element={
