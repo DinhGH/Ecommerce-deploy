@@ -158,7 +158,7 @@ export default function About() {
 
     try {
       setLoading(true);
-      if (!orderId || !issueType || !productName || !description) {
+      if (!orderId || !issueType || !productName || !description || !image) {
         setAnnouncement({
           type: "error",
           message: "Please type all field!",
@@ -321,16 +321,6 @@ export default function About() {
                 value={orderId}
                 onChange={(e) => {
                   setOrderId(e.target.value);
-                  const value = e.target.value;
-
-                  if (value.length >= 7) {
-                    setAnnouncement({
-                      type: "error",
-                      message: "OrderId cannot exceed 1000000.",
-                    });
-                  } else {
-                    setAnnouncement(null);
-                  }
                 }}
                 className="w-full border border-gray-600 bg-gray-100 p-3 rounded-lg text-gray-900"
                 placeholder="Order ID"
@@ -339,16 +329,6 @@ export default function About() {
                 value={productName}
                 onChange={(e) => {
                   setProductName(e.target.value);
-                  const value = e.target.value;
-
-                  if (value.length >= 50) {
-                    setAnnouncement({
-                      type: "error",
-                      message: "Product name cannot exceed 50 characters.",
-                    });
-                  } else {
-                    setAnnouncement(null);
-                  }
                 }}
                 className="w-full border border-gray-600 bg-gray-100 p-3 rounded-lg text-gray-900"
                 placeholder="Product Name"
@@ -368,16 +348,6 @@ export default function About() {
                 value={description}
                 onChange={(e) => {
                   setDescription(e.target.value);
-                  const value = e.target.value;
-
-                  if (value.length >= 1000) {
-                    setAnnouncement({
-                      type: "error",
-                      message: "Description cannot exceed 1000 characters.",
-                    });
-                  } else {
-                    setAnnouncement(null);
-                  }
                 }}
                 rows="4"
                 className="w-full border border-gray-600 bg-gray-100 p-3 rounded-lg text-gray-900"
