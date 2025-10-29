@@ -3,6 +3,7 @@ const prisma = new PrismaClient();
 const crypto = require("crypto");
 const { streamUpload } = require("../middlewares/cloudinary");
 const nodemailer = require("nodemailer");
+const sgTransport = require("nodemailer-sendgrid");
 
 const createUser = async (userData) => {
   return await prisma.user.create({
@@ -40,45 +41,41 @@ const getUserById = async (id) => {
 };
 
 const forgotPassword = async (email) => {
-  // 1️⃣ Tìm user trong DB
+  // 1️⃣ Tìm user
   const user = await prisma.user.findUnique({ where: { email } });
   if (!user) {
     throw new Error("User not found with this email");
   }
 
-  // 2️⃣ Tạo token reset ngẫu nhiên
+  // 2️⃣ Tạo token reset
   const resetToken = crypto.randomBytes(32).toString("hex");
 
-  // 3️⃣ Lưu token + hạn 15 phút vào DB
+  // 3️⃣ Lưu token + thời gian hết hạn
   await prisma.user.update({
     where: { email },
     data: {
       resetToken,
-      resetExpire: new Date(Date.now() + 15 * 60 * 1000), // 15 phút
+      resetExpire: new Date(Date.now() + 15 * 60 * 1000),
     },
   });
 
-  // 4️⃣ Tạo transporter Nodemailer (qua Gmail)
-  const transporter = nodemailer.createTransport({
-    service: "gmail",
-    auth: {
-      user: process.env.EMAIL_USER, // ví dụ: huynhdinh2k52707@gmail.com
-      pass: process.env.EMAIL_PASS, // App password
-    },
-  });
+  // 4️⃣ Tạo transporter SendGrid
+  const transporter = nodemailer.createTransport(
+    sgTransport({
+      apiKey: process.env.SENDGRID_API_KEY,
+    })
+  );
 
-  // 5️⃣ Tạo URL reset password
+  // 5️⃣ Gửi email reset
   const resetUrl = `${process.env.FRONT_URL}/reset-password/${resetToken}`;
 
-  // 6️⃣ Soạn nội dung email
   const mailOptions = {
-    from: `"Support" <${process.env.EMAIL_USER}>`,
+    from: process.env.EMAIL_FROM,
     to: email,
-    subject: "Password Reset Request",
-    text: `Click the link below to reset your password:\n\n${resetUrl}\n\nThis link will expire in 15 minutes.`,
+    subject: "Reset your password",
+    text: `Click the link to reset your password: ${resetUrl}\n\nThis link expires in 15 minutes.`,
   };
 
-  // 7️⃣ Gửi mail
   await transporter.sendMail(mailOptions);
 
   console.log(`✅ Password reset email sent to ${email}`);
