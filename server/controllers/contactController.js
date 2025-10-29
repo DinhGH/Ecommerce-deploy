@@ -1,19 +1,13 @@
-const nodemailer = require("nodemailer");
+import { Resend } from "resend";
+
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 exports.sendContactMessage = async (req, res) => {
   const { name, email, phone, subject, message } = req.body;
 
   try {
-    const transporter = nodemailer.createTransport({
-      service: "gmail",
-      auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS,
-      },
-    });
-
-    const mailOptions = {
-      from: email,
+    await resend.emails.send({
+      from: "Your App <onboarding@resend.dev>",
       to: process.env.EMAIL_USER,
       subject: `[Contact Support] ${subject}`,
       text: `
@@ -22,9 +16,7 @@ exports.sendContactMessage = async (req, res) => {
         Phone: ${phone}
         Message: ${message}
       `,
-    };
-
-    await transporter.sendMail(mailOptions);
+    });
 
     res
       .status(200)
