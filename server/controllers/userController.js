@@ -53,33 +53,48 @@ exports.createNewUser = async (req, res) => {
 
 exports.updateUserById = async (req, res) => {
   try {
-    const { email, phone } = req.body;
+    const { email, phone, password } = req.body;
+
+    // Check trùng email
     if (email) {
       const existing = await getUser(email);
       if (existing) {
-        return res.status(400).json({ message: "Email already exis" });
+        return res.status(400).json({ message: "Email already exists" });
       }
     }
 
+    // Check trùng phone
     if (phone) {
       const existingPhone = await getUserPhone(phone);
       if (existingPhone) {
-        return res.status(400).json({ message: "Phone already exis" });
+        return res.status(400).json({ message: "Phone already exists" });
       }
     }
-    let avatar = null;
 
+    // Avatar
+    let avatar = null;
     if (req.file) {
       avatar = await streamUpload(req.file.buffer, "avatar");
     } else if (req.body.avatar) {
       avatar = req.body.avatar;
     }
-    const password = req.body.password;
-    const passwordHash = await bcrypt.hash(password, 10);
-    const data = { ...req.body, passwordHash, avatar };
+
+    // Chuẩn bị dữ liệu
+    const data = { ...req.body, avatar };
+
+    // Nếu có password mới thì hash và thêm vào data
+    if (password && password.trim() !== "") {
+      const passwordHash = await bcrypt.hash(password, 10);
+      data.passwordHash = passwordHash;
+    }
+
+    // Nếu không có password mới => không cập nhật passwordHash
+    delete data.password;
+
     const user = await updateUser(req.params.id, data);
     res.json(user);
   } catch (err) {
+    console.error("❌ Update user error:", err.message);
     res.status(400).json({ error: err.message });
   }
 };
