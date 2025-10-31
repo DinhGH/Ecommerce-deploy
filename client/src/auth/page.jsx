@@ -365,7 +365,8 @@ const RegisterForm = () => {
     if (!regex.test(value)) {
       setAnnouncement({
         type: "error",
-        message: "Password is invalid!",
+        message:
+          "Password must be at least 8 characters, include uppercase, lowercase, number, and special character.",
       });
       return;
     } else {
