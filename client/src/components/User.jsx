@@ -140,12 +140,20 @@ export default function User() {
 
       const fd = new FormData();
       Object.entries(form).forEach(([k, v]) => {
-        if (k !== "avatarUrlText") {
-          if (editing && (k === "email" || k === "phone")) {
-            if (v === originalUser[k]) return;
-          }
-          fd.append(k, v);
-        }
+        if (k === "avatarUrlText") return;
+
+        // Nếu đang update và không nhập password mới thì bỏ qua
+        if (editing && k === "password" && !v) return;
+
+        // Nếu đang update, email/phone không đổi thì bỏ qua
+        if (
+          editing &&
+          (k === "email" || k === "phone") &&
+          v === originalUser[k]
+        )
+          return;
+
+        fd.append(k, v);
       });
 
       if (avatarFile) {
