@@ -159,10 +159,10 @@ export default function Product() {
       }
 
       // === 2. STRING LENGTH VALIDATION ===
-      if (title.trim().length > 100) {
+      if (title.trim().length > 150) {
         setAnnouncement({
           type: "error",
-          message: "Product title must not exceed 100 characters!",
+          message: "Product title must not exceed 150 characters!",
         });
         setLoading(false);
         return;
@@ -186,37 +186,37 @@ export default function Product() {
         return;
       }
 
-      if (description.trim().length > 1000) {
+      if (description.trim().length > 500) {
         setAnnouncement({
           type: "error",
-          message: "Description must not exceed 1000 characters!",
+          message: "Description must not exceed 500 characters!",
         });
         setLoading(false);
         return;
       }
 
-      if (warrantyInformation && warrantyInformation.length > 200) {
+      if (warrantyInformation && warrantyInformation.length > 100) {
         setAnnouncement({
           type: "error",
-          message: "Warranty information must not exceed 200 characters!",
+          message: "Warranty information must not exceed 100 characters!",
         });
         setLoading(false);
         return;
       }
 
-      if (shippingInformation && shippingInformation.length > 200) {
+      if (shippingInformation && shippingInformation.length > 100) {
         setAnnouncement({
           type: "error",
-          message: "Shipping information must not exceed 200 characters!",
+          message: "Shipping information must not exceed 100 characters!",
         });
         setLoading(false);
         return;
       }
 
-      if (returnPolicy && returnPolicy.length > 200) {
+      if (returnPolicy && returnPolicy.length > 100) {
         setAnnouncement({
           type: "error",
-          message: "Return policy must not exceed 200 characters!",
+          message: "Return policy must not exceed 100 characters!",
         });
         setLoading(false);
         return;
