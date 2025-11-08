@@ -95,7 +95,7 @@ export default function About() {
         });
         return;
       }
-      if (contactData.name.length >= 50) {
+      if (contactData.name.length > 50) {
         setAnnouncement({
           type: "error",
           message: "Your name cannot exceed 50 characters.",
@@ -119,7 +119,7 @@ export default function About() {
         return;
       }
 
-      if (contactData.subject.length >= 50) {
+      if (contactData.subject.length > 50) {
         setAnnouncement({
           type: "error",
           message: "Subject cannot exceed 50 characters.",
@@ -127,7 +127,7 @@ export default function About() {
         return;
       }
 
-      if (contactData.message.length >= 700) {
+      if (contactData.message.length > 700) {
         setAnnouncement({
           type: "error",
           message: "Message cannot exceed 700 characters.",
@@ -173,14 +173,14 @@ export default function About() {
         return;
       }
 
-      if (orderId.length >= 7) {
+      if (orderId.length > 7) {
         setAnnouncement({
           type: "error",
           message: "OrderId cannot exceed 1000000.",
         });
         return;
       }
-      if (productName.length >= 50) {
+      if (productName.length > 50) {
         setAnnouncement({
           type: "error",
           message: "Product name cannot exceed 50 characters.",
@@ -188,10 +188,10 @@ export default function About() {
         return;
       }
 
-      if (description.length >= 1000) {
+      if (description.length > 100) {
         setAnnouncement({
           type: "error",
-          message: "Desciption cannot exceed 1000 characters.",
+          message: "Desciption cannot exceed 100 characters.",
         });
         return;
       }
