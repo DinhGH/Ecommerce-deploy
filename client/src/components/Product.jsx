@@ -142,17 +142,16 @@ export default function Product() {
       // === 1. REQUIRED FIELDS ===
       if (
         !title ||
-        !category ||
         !price ||
         !description ||
+        !category ||
         !stock ||
-        !brand ||
         !availabilityStatus
       ) {
         setAnnouncement({
           type: "error",
           message:
-            "Please fill in all required fields (title, category, price, stock, brand, availability, description)!",
+            "Please fill in all required fields (title, description, category, price, stock, availability)!",
         });
         setLoading(false);
         return;
@@ -168,6 +167,14 @@ export default function Product() {
         return;
       }
 
+      if (description.trim().length > 500) {
+        setAnnouncement({
+          type: "error",
+          message: "Description must not exceed 500 characters!",
+        });
+        setLoading(false);
+        return;
+      }
       if (brand.trim().length > 50) {
         setAnnouncement({
           type: "error",
@@ -181,15 +188,6 @@ export default function Product() {
         setAnnouncement({
           type: "error",
           message: "SKU must not exceed 30 characters!",
-        });
-        setLoading(false);
-        return;
-      }
-
-      if (description.trim().length > 500) {
-        setAnnouncement({
-          type: "error",
-          message: "Description must not exceed 500 characters!",
         });
         setLoading(false);
         return;
