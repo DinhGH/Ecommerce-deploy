@@ -167,10 +167,10 @@ export default function Product() {
         return;
       }
 
-      if (description.trim().length > 160) {
+      if (description.trim().length > 500) {
         setAnnouncement({
           type: "error",
-          message: "Description must not exceed 160 characters!",
+          message: "Description must not exceed 500 characters!",
         });
         setLoading(false);
         return;
