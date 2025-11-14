@@ -54,14 +54,14 @@ export default function Checkout() {
       return;
     }
 
-    if (recipientName.length >= 50) {
+    if (recipientName.length > 50) {
       setAnnouncement({
         type: "error",
         message: "Recipient name cannot exceed 50 characters.",
       });
       return;
     }
-    if (altRecipientName.length >= 50) {
+    if (altRecipientName.length > 50) {
       setAnnouncement({
         type: "error",
         message: "AltRecipient name cannot exceed 50 characters.",
