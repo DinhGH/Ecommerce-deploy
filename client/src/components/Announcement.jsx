@@ -36,7 +36,12 @@ export default function Announcement({ type = "success", message, onClose }) {
         className="fixed z-100 bottom-5 left-1/2 -translate-x-1/2 flex items-center gap-3 bg-white shadow-lg px-4 py-4 rounded-xl border w-[400px]"
       >
         {getIcon()}
-        <p className="flex-1 text-md text-black font-semibold">{message}</p>
+        <p
+          className="flex-1 text-md text-black font-semibold"
+          id="announcement"
+        >
+          {message}
+        </p>
         <button onClick={onClose} className="text-gray-400 hover:text-black">
           <X size={18} />
         </button>
